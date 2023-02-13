@@ -9,6 +9,7 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
 	"github.com/joho/godotenv"
+	"regexp"
 )
 
 type AddressType struct {
@@ -33,6 +34,13 @@ func main() {
 		address := r.URL.Query().Get("address")
 		if address == "" {
 			http.Error(w, "missing address parameter", http.StatusBadRequest)
+			return
+		}
+
+		re := regexp.MustCompile("^0x[0-9a-fA-F]{40}$")
+
+		if (!re.MatchString(common.HexToAddress(address).String())) {
+			http.Error(w, "invalid address parameter", http.StatusBadRequest)
 			return
 		}
 
