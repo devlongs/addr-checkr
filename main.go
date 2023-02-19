@@ -19,6 +19,10 @@ type response struct {
 var apiKey string
 
 func checkAddress(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With")
+
 	// Connect to Ethereum client
 	client, err := ethclient.Dial("https://mainnet.infura.io/v3/" + apiKey)
 	if err != nil {
