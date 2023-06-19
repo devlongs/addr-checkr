@@ -5,18 +5,14 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"os"
 
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
-	"github.com/joho/godotenv"
 )
 
 type response struct {
 	Type string `json:"type"`
 }
-
-var apiKey string
 
 func checkAddress(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
@@ -24,7 +20,7 @@ func checkAddress(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With")
 
 	// Connect to Ethereum client
-	client, err := ethclient.Dial("https://mainnet.infura.io/v3/" + apiKey)
+	client, err := ethclient.Dial("https://mainnet.infura.io/v3/ac7fe75399a146fe821d83ce4c7c512e")
 	if err != nil {
 		fmt.Println("Error connecting to Ethereum client:", err)
 		return
@@ -65,12 +61,6 @@ func checkAddress(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	err := godotenv.Load()
-	if err != nil {
-		fmt.Println("Error loading .env file")
-	}
-
-	apiKey = os.Getenv("API_KEY")
 
 	http.HandleFunc("/check", checkAddress)
 	fmt.Println(http.ListenAndServe(":8080", nil))
