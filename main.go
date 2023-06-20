@@ -53,7 +53,7 @@ func checkAddress(w http.ResponseWriter, r *http.Request) {
 	if len(code) == 0 {
 		res = response{Type: "EOA"}
 	} else {
-		res = response{Type: "Smart Contract"}
+		res = response{Type: "contract"}
 	}
 
 	w.Header().Set("Content-Type", "application/json")
